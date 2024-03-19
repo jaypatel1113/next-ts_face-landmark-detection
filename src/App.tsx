@@ -54,7 +54,7 @@ const App: React.FC = () => {
                 <Webcam
                     width={inputResolution.width}
                     height={inputResolution.height}
-                    style={{ width: "100%", height: "auto" }}
+                    style={{ width: "100%", height: "auto", visibility: "hidden" }}
                     videoConstraints={videoConstraints}
                     onLoadedData={handleVideoLoad}
                     onUserMediaError={handleUserMediaError}
@@ -65,7 +65,7 @@ const App: React.FC = () => {
                     height={inputResolution.height}
                     className="absolute top-0 left-0 w-full h-full"
                 />
-                
+
                 {error ? 
                     <header className="text-red-700 text-3xl font-semibold">{error}</header> : 
                     (loaded ? 
