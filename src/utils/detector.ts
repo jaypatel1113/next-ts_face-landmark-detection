@@ -16,7 +16,7 @@ export const runDetector = async (
     const detect = async () => {
         const estimationConfig = { flipHorizontal: false };
         const faces = await detector.estimateFaces(video, estimationConfig);
-        console.log(faces)
+        // console.log(faces)
         const ctx = canvas.getContext("2d");
         requestAnimationFrame(() => drawMesh(faces[0], ctx!));
         detect();

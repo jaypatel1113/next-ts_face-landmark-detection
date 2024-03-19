@@ -12,7 +12,7 @@ interface InputResolution {
 }
 
 const inputResolution: InputResolution = {
-    width: 1080,
+    width: 1000,
     height: 750,
 };
 
@@ -25,6 +25,7 @@ const videoConstraints: WebcamProps["videoConstraints"] = {
 const App: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [loaded, setLoaded] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleVideoLoad = (videoNode: React.SyntheticEvent<HTMLVideoElement, Event>) => {
         const video = videoNode.target as HTMLVideoElement;
@@ -32,6 +33,11 @@ const App: React.FC = () => {
         if (loaded) return;
         runDetector(video, canvasRef.current);
         setLoaded(true);
+    };
+
+    const handleUserMediaError = (error: string | DOMException) => {
+        setError("Error accessing camera. Please grant camera permission.");
+        console.log(error);
     };
 
     useEffect(() => {
@@ -43,22 +49,31 @@ const App: React.FC = () => {
     }, []);
 
     return (
-        <div>
-            <Webcam
-                width={inputResolution.width}
-                height={inputResolution.height}
-                // style={{ visibility: "hidden", position: "absolute" }}
-                style={{ position: "absolute" }}
-                videoConstraints={videoConstraints}
-                onLoadedData={handleVideoLoad}
-            />
-            <canvas
-                ref={canvasRef}
-                width={inputResolution.width}
-                height={inputResolution.height}
-                style={{ position: "absolute" }}
-            />
-            {loaded ? <></> : <header>Loading...</header>}
+        <div className="flex w-full h-full justify-center items-center">
+            <div className="relative w-full max-w-screen-md text-center">
+                <Webcam
+                    width={inputResolution.width}
+                    height={inputResolution.height}
+                    style={{ width: "100%", height: "auto" }}
+                    videoConstraints={videoConstraints}
+                    onLoadedData={handleVideoLoad}
+                    onUserMediaError={handleUserMediaError}
+                />
+                <canvas
+                    ref={canvasRef}
+                    width={inputResolution.width}
+                    height={inputResolution.height}
+                    className="absolute top-0 left-0 w-full h-full"
+                />
+                
+                {error ? 
+                    <header className="text-red-700 text-3xl font-semibold">{error}</header> : 
+                    (loaded ? 
+                        <></> : 
+                        <header>Loading...</header>
+                    )
+                }
+            </div>
         </div>
     );
 };
