@@ -49,12 +49,12 @@ const App: React.FC = () => {
     }, []);
 
     return (
-        <div className="flex w-full h-full justify-center items-center">
-            <div className="relative w-full max-w-screen-md text-center">
+        <div className={`flex w-full ${loaded ? "h-screen" : "h-full"} justify-center items-center`}>
+            <div className={`relative w-full max-w-screen-md text-center ${loaded ? "border-2" : "border-0"} border-black`}>
                 <Webcam
                     width={inputResolution.width}
                     height={inputResolution.height}
-                    className="w-full h-auto"
+                    className="w-full h-auto invisible"
                     videoConstraints={videoConstraints}
                     onLoadedData={handleVideoLoad}
                     onUserMediaError={handleUserMediaError}
