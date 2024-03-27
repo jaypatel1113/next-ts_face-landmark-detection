@@ -54,7 +54,7 @@ const App: React.FC = () => {
                 <Webcam
                     width={inputResolution.width}
                     height={inputResolution.height}
-                    style={{ width: "100%", height: "auto", visibility: "hidden" }}
+                    className="w-full h-auto"
                     videoConstraints={videoConstraints}
                     onLoadedData={handleVideoLoad}
                     onUserMediaError={handleUserMediaError}
